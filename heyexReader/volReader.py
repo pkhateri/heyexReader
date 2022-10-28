@@ -215,7 +215,7 @@ class volFile():
 
 
             wholefile["cScan"] = np.array(bscans)
-            wholefile["segmentations"] = np.array(segmentations)
+            wholefile["segmentations"] = np.array(segmentations,dtype=object)
             wholefile["slice-headers"] = bscanheaders
             self.wholefile = wholefile
 
