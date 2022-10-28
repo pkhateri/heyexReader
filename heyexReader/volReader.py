@@ -205,7 +205,7 @@ class volFile():
                 U = np.array(U)
                 U[U == v] = 0.
 
-                if segmentations == None:
+                if segmentations == None or segmentations == []: #todo why not initializing segmentations as [] at the first place?
                     segmentations = []
                     for j in range(bscanHead["numSeg"]):
                         segmentations.append([])
