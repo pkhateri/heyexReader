@@ -9,7 +9,6 @@ import os
 import glob
 import heyexReader
 
-#todo: add a line to check arguments
 if len(sys.argv)==2:
     dir = sys.argv[1]
 else:

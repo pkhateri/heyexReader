@@ -12,8 +12,12 @@ import os
 import glob
 import heyexReader
 
+if len(sys.argv)==2:
+    dir = sys.argv[1]
+else:
+    print("usage: python read_vol_files.py path_to_the_vol_files")
+    sys.exit()
 
-dir = sys.argv[1]
 print("patient_id exam_time scan_pos is_edi oct_shape oct_fov")
 for f in glob.glob(dir+'*.vol'):
     patient_id = os.path.basename(f)[:-4]
