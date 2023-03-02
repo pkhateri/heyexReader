@@ -2,6 +2,7 @@
 1) read quality values in the header of bscans measured by heyex
 2) print these in a csv file:
     patient_id quality_of_bscan_0 quality_of_bscan_1 ... quality_of_bscan_48
+3) a file containg the bscan qualities will be generated in the given directory.
 '''
 #todo: fix the bug when no slash after dirname is given
 import sys
