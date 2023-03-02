@@ -210,8 +210,8 @@ class volFile():
                     for j in range(bscanHead["numSeg"]):
                         segmentations.append([])
 
-                for j in range(bscanHead["numSeg"]):
-                    segmentations[j].append(U[j*header["octSizeX"]:(j+1) * header["octSizeX"]].tolist())
+                #for j in range(bscanHead["numSeg"]):
+                #    segmentations[j].append(U[j*header["octSizeX"]:(j+1) * header["octSizeX"]].tolist())
 
 
             wholefile["cScan"] = np.array(bscans)

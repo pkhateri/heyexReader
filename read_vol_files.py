@@ -20,14 +20,15 @@ for f in glob.glob(dir+'*.vol'):
     print(patient_id, end = ' ')
     vol = heyexReader.volFile(f)
     exam_time = vol.fileHeader['examTime'].replace(microsecond=0)
-    scan_pos = vol.fileHeader['scanPos'].decode('ascii')
+    scan_pos = vol.fileHeader['scanPos'].replace(b'\x00', b'') #remove null bytes from the end of bytes object then convert it to string
+    scan_pos = scan_pos.decode('utf-8')
     is_edi = vol.oct.shape[0]==7
     oct_shape = vol.oct.shape
     oct_fov_x = round(vol.fileHeader["octSizeX"]*vol.fileHeader["scaleX"], 2)
     oct_fov_z = round(vol.fileHeader["octSizeZ"]*vol.fileHeader["scaleZ"], 2)
     oct_fov_y = round(vol.fileHeader["numBscan"]*vol.fileHeader["distance"], 2)
     scan_id = vol.fileHeader['ID'].decode('ascii')
-    print(exam_time, scan_pos, is_edi, oct_shape, oct_fov_x, oct_fov_z, oct_fov_y)
+    print(exam_time, scan_pos, is_edi, oct_shape[0], oct_shape[1], oct_shape[2], oct_fov_y, oct_fov_z, oct_fov_x)
 
 '''
 generate oct and slo files in png format
@@ -36,14 +37,3 @@ generate oct and slo files in png format
 #output_slo = input_filename[:-4]+'_slo.png'
 #vol.renderIRslo(output_slo, renderGrid = True)
 #vol.renderOCTscans(output_oct, renderSeg = True)
-
-'''
-print(is_edi)
-print(exam_time)
-print(scan_pos)
-print(scan_id)
-print(vol.oct.shape)
-print(vol.irslo.shape)
-print(vol.fileHeader)
-
-'''
