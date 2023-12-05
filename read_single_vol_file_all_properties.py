@@ -8,7 +8,7 @@ output_slo = input_filename[:-4]+'_slo.png'
 
 vol = heyexReader.volFile(input_filename)
 #vol.renderIRslo(output_slo, renderGrid = True)
-#vol.renderOCTscans(output_oct, renderSeg = True)
+#vol.renderOCTscans(output_oct, renderSeg = False, file_format="png")
 
 scan_pos = vol.fileHeader['scanPos'].decode('ascii')
 exam_time = vol.fileHeader['examTime']

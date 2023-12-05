@@ -3,7 +3,7 @@
 # Aaron Y. Lee MD MSCI (University of Washington) Copyright 2019
 #
 # Code ported from Markus Mayer's excellent work (https://www5.cs.fau.de/research/software/octseg/)
-# 
+#
 # Also thanks to who contributed to the original openVol.m in Markus's project
 #   Radim Kolar, Brno University, Czech Republic
 #   Kris Sheets, Retinal Cell Biology Lab, Neuroscience Center of Excellence, LSU Health Sciences Center, New Orleans
@@ -21,7 +21,7 @@ class volFile():
         Args:
             filename (str): Path to vol file
 
-        Returns: 
+        Returns:
             volFile class
 
         """
@@ -56,7 +56,7 @@ class volFile():
 
         Returns:
             2D numpy array with the number of b scan images in the first dimension
-            and x_0, y_0, x_1, y_1 defining the line of the B scan on the pixel 
+            and x_0, y_0, x_1, y_1 defining the line of the B scan on the pixel
             coordinates of the IR SLO image.
 
         """
@@ -97,7 +97,7 @@ class volFile():
         else:
             Image.fromarray(a).save(filepre)
 
-    def renderOCTscans(self, filepre = "oct", renderSeg=False):
+    def renderOCTscans(self, filepre = "oct", renderSeg=False, file_format="png"):
         """
         Renders OCT images a PNG file and optionally overlays segmentation lines
 
@@ -113,6 +113,10 @@ class volFile():
         wf = self.wholefile
         for i in range(wf["cScan"].shape[0]):
             a = np.copy(wf["cScan"][i])
+            if file_format == "png":
+                # log normalize
+                a = np.log(10000 * a + 1)
+                a = (255. * (np.clip(a, 0, np.max(a)) / np.max(a))).astype("uint8")
 
             if renderSeg:
                 a = np.stack((a,)*3, axis=-1)
@@ -120,7 +124,10 @@ class volFile():
                     for x in range(wf["segmentations"].shape[2]):
                         a[int(wf["segmentations"][li,i,x]),x, li] = 255
 
-            Image.fromarray(a).save("%s-%03d.png" % (filepre, i))
+            if file_format == "png":
+                Image.fromarray(a).save("%s-%03d.png" % (filepre, i))
+            elif file_format == "tif":
+                Image.fromarray(a).save("%s-%03d.tif" % (filepre, i))
 
     def __parseVolFile(self, fn):
         wholefile = OrderedDict()
@@ -148,7 +155,7 @@ class volFile():
             header["BscanHdrSize"] = struct.unpack("I", fin.read(4))[0]
             header["ID"] = fin.read(16)
             header["ReferenceID"] = fin.read(16)
-            header["PID"] = struct.unpack("I", fin.read(4))[0] 
+            header["PID"] = struct.unpack("I", fin.read(4))[0]
             header["PatientID"] = fin.read(21)
             header["unknown2"] = fin.read(3)
             header["DOB"] = struct.unpack("d", fin.read(8))[0] - 25569
@@ -168,7 +175,7 @@ class volFile():
             wholefile["sloImage"] = U
 
             sloOffset = 2048 + header["sizeXSlo"] * header["sizeYSlo"]
-            octOffset = header["BscanHdrSize"] + header["octSizeX"] * header["octSizeZ"] * 4 
+            octOffset = header["BscanHdrSize"] + header["octSizeX"] * header["octSizeZ"] * 4
             bscans = []
             bscanheaders = []
             segmentations = None
@@ -190,7 +197,7 @@ class volFile():
                 U = array.array("f")
                 U.frombytes(fin.read(4 * header["octSizeX"] * header["octSizeZ"]))
                 U = np.array(U).reshape((header["octSizeZ"],header["octSizeX"]))
-                # remove out of boundary 
+                # remove out of boundary
                 v = struct.unpack("f", decode_hex('FFFF7F7F')[0])
                 U[U == v] = 0
                 # log normalize
@@ -298,5 +305,3 @@ class volFile():
                 r = [ri] + r
                 fout.write("%s\n" % "\t".join(map(str, r)))
                 ri += 1
-
-

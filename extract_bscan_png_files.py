@@ -41,7 +41,6 @@ for f in glob.glob(dir+'*.vol'):
     out_dir = f[:-4]
     if not os.path.isdir(out_dir): os.mkdir(out_dir)
     output_oct = os.path.join(out_dir, os.path.basename(f)[:-4]+'_oct')
-    vol.renderOCTscans(output_oct, renderSeg = False)
+    vol.renderOCTscans(output_oct, renderSeg = False, file_format="png")
 #output_slo = input_filename[:-4]+'_slo.png'
 #vol.renderIRslo(output_slo, renderGrid = True)
-

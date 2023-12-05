@@ -1,8 +1,8 @@
 Welcome to Python Heyex Reader's documentation!
 ===============================================
 
-This is a native python implementation for reading Heidelberg Heyex Spectralis 
-files. The current version only supports the Heyex VOL files. 
+This is a native python implementation for reading Heidelberg Heyex Spectralis
+files. The current version only supports the Heyex VOL files.
 
 The github repository for this project is located at: `https://github.com/ayl/heyexReader <https://github.com/ayl/heyexReader>`_
 
@@ -32,7 +32,7 @@ Getting Started
    vol = heyexReader.volFile("test.vol")
 
    vol.renderIRslo("slo.png", renderGrid = True)
-   vol.renderOCTscans("oct", renderSeg = True)
+   vol.renderOCTscans("oct", renderSeg = True, file_format="png")
 
    print(vol.oct.shape)
    print(vol.irslo.shape)
@@ -42,5 +42,3 @@ Getting Started
    :maxdepth: 2
 
    source/heyexReader.rst
-
-

@@ -44,12 +44,3 @@ for f in glob.glob(dir+'*.vol'):
     cmd = 'cp %s %s'%(f, dir+"renamed_vol/"+new_file_name)
     print(cmd, file=logfile)
     os.system(cmd)
-
-'''
-generate oct and slo files in png format
-'''
-#output_oct = input_filename[:-4]+'_oct'
-#output_slo = input_filename[:-4]+'_slo.png'
-#vol.renderIRslo(output_slo, renderGrid = True)
-#vol.renderOCTscans(output_oct, renderSeg = True)
-

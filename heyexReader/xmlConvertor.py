@@ -101,7 +101,7 @@ class xml2VolConvertor():
     def renderOCTscans(self, filepre = "oct", renderSeg=False):
         """
         Renders OCT images a PNG file and optionally overlays segmentation lines
-
+        TODO: can add png or tif options to store file format
         Args:
             filepre (str): filename prefix. OCT Images will be named as "<prefix>-001.png"
             renderSeg (bool): True will render colored lines for the segmentation of the RPE, ILM, and NFL on the B scans.
